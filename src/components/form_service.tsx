@@ -10,12 +10,13 @@ import { Label } from "./ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
 import { tipoAtendimento } from "@/type/tipo_atendimento"
 import InputError from "./ui/input_error"
+import { MaskedInput } from "./ui/input_mask";
 
 const FormSchema = z.object({
   prestador:z.string().min(1,"prestador é obrigatório"),
   atendente:z.string().min(1,"atendente é obrigatório"),
   tipo_atendimento:z.enum(tipoAtendimento,{required_error:"tipo de atendimento é obrigatório"}),
-  telefone:z.string()
+  telefone:z.string().min(14, "Insira um número de telefone válido").max(15, "Número de telefone inválido"),
 })
 
 
@@ -57,15 +58,28 @@ export default function FormService() {
 
         <div className="mt-2">
           <Label htmlFor="telefone">Telefone</Label>
-          <Input 
-            placeholder="(00) 0 0000-0000" 
+          <Controller
+            name="telefone"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <MaskedInput
+                mask={"(99) 99999-9999"}
+                {...field}
+                className="border p-2"/>  
+            )}
+          />
+          {errors.telefone && <InputError>{errors.telefone.message}</InputError>}
+            
+       
+          {/* <Input 
+            placeholder="(00) 00000-0000" 
             type="tel" 
             inputMode="numeric"
-            autoComplete="tel-national"
             maxLength={15}
             id="telefone" 
-            {...register('telefone')} />
-          {errors.atendente && <InputError>{errors.atendente.message}</InputError>}
+            {...register('telefone', {pattern: ^\(\d{2}\) \d \d{4}-\d{4}$  })} />
+          {errors.atendente && <InputError>{errors.atendente.message}</InputError>} */}
         </div>
 
         <div className="mt-2">
