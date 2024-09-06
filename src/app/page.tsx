@@ -3,11 +3,11 @@ import ListServices from "@/components/list_services";
 
 export default function Home() {
   return (
-   <main className="flex flex-col min-h-full">
-    <div className="flex justify-between content-center gap-4 min-h-full">
+   <div className="flex flex-col min-h-[calc(100vh-2rem)]">
+    <div className="flex flex-1 justify-between gap-4">
       <FormService/>
       <ListServices/>
     </div>
-   </main>
+   </div>
   );
 }

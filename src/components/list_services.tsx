@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 
 export default function ListServices() {
   return(
-    <div className="flex flex-col w-full min-h-full shadow-xl bg-white px-3 py-5 rounded-lg">
+    <div className="flex flex-col w-full shadow-xl bg-white px-3 py-5 rounded-lg">
       <div className="flex justify-between items-center pb-2">
         <h1 className="text-2xl">Lista de Atendimentos</h1>
         <Button>Exportar</Button>

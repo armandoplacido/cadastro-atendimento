@@ -15,6 +15,7 @@ const FormSchema = z.object({
   prestador:z.string().min(1,"prestador é obrigatório"),
   atendente:z.string().min(1,"atendente é obrigatório"),
   tipo_atendimento:z.enum(tipoAtendimento,{required_error:"tipo de atendimento é obrigatório"}),
+  telefone:z.string()
 })
 
 
@@ -28,7 +29,7 @@ export default function FormService() {
   }
 
   return (
-    <div className=" min-w-96 shadow-xl bg-white px-3 py-5 rounded-lg">
+    <div className="self-start min-w-96 shadow-xl bg-white px-3 py-5 rounded-lg">
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
 
         <h1 className="text-2xl">Cadastrar chamado</h1>
@@ -36,18 +37,39 @@ export default function FormService() {
 
         <div className="mt-2">
           <Label htmlFor="prestador">Prestador</Label>
-          <Input type="text" placeholder="Nome Prestador" id="prestador" {...register('prestador')} />
+          <Input 
+            placeholder="Nome Prestador" 
+            type="text" 
+            id="prestador" 
+            {...register('prestador')} />
           {errors.prestador && <InputError>{errors.prestador.message}</InputError>}
         </div>
 
         <div className="mt-2">
           <Label htmlFor="atendente">Atendente</Label>
-          <Input type="text" placeholder="Nome Atendente" id="atendente" {...register('atendente')} />
+          <Input 
+            placeholder="Nome Atendente" 
+            type="text" 
+            id="atendente" 
+            {...register('atendente')} />
           {errors.atendente && <InputError>{errors.atendente.message}</InputError>}
         </div>
 
         <div className="mt-2">
-        <Label htmlFor="atendente">Atendente</Label>
+          <Label htmlFor="telefone">Telefone</Label>
+          <Input 
+            placeholder="(00) 0 0000-0000" 
+            type="tel" 
+            inputMode="numeric"
+            autoComplete="tel-national"
+            maxLength={15}
+            id="telefone" 
+            {...register('telefone')} />
+          {errors.atendente && <InputError>{errors.atendente.message}</InputError>}
+        </div>
+
+        <div className="mt-2">
+        <Label htmlFor="tipo_atendimento">Tipo de atendimento</Label>
         <Controller
           name="tipo_atendimento"
           control={control}
