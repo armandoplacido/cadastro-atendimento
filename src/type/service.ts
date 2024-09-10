@@ -5,5 +5,5 @@ export type Service = {
   requester:string
   serviceType: serviceType
   phone:string
-  observation:string
+  observation:string | undefined
 }

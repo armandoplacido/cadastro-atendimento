@@ -12,6 +12,7 @@ import InputError from "./ui/input_error"
 import { FormEvent } from "react"
 import { Textarea } from "./ui/textarea"
 import { serviceType } from "@/type/service_type"
+import { Service } from "@/type/service"
 
 const FormSchema = z.object({
   provider:z.string().min(1,"Prestador inválido"),
@@ -28,7 +29,13 @@ export default function FormService() {
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data)
+    const service:Service = {
+      provider: data.provider,
+      requester: data.requester,
+      phone: data.phone,
+      serviceType: data.serviceType,
+      observation: data.observation,
+    }
   }
 
   function handlerFormatPhone(event: FormEvent<HTMLInputElement>) {
