@@ -8,17 +8,17 @@ import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
-import { tipoAtendimento } from "@/type/tipo_atendimento"
 import InputError from "./ui/input_error"
 import { FormEvent } from "react"
 import { Textarea } from "./ui/textarea"
+import { serviceType } from "@/type/service_type"
 
 const FormSchema = z.object({
-  prestador:z.string().min(1,"Prestador inválido"),
-  atendente:z.string().min(1,"Atendente inválido"),
-  tipo_atendimento:z.enum(tipoAtendimento,{required_error:"Tipo de atendimento inválido"}),
-  telefone:z.string().min(14, "Insira um número de telefone válido").max(15, "Número de telefone inválido"),
-  observacao:z.string().optional()
+  provider:z.string().min(1,"Prestador inválido"),
+  requester:z.string().min(1,"Atendente inválido"),
+  serviceType:z.nativeEnum(serviceType,{required_error:"Tipo de atendimento inválido"}),
+  phone:z.string().min(14, "Insira um número de telefone válido").max(15, "Número de telefone inválido"),
+  observation:z.string().optional()
 })
 
 
@@ -61,42 +61,42 @@ export default function FormService() {
         <span className="h-[1px] bg-slate-300"></span>
 
         <div className="grid w-full gap-1.5 mt-4">
-          <Label htmlFor="prestador">Prestador</Label>
+          <Label htmlFor="provider">Prestador</Label>
           <Input 
             placeholder="Nome Prestador" 
             type="text" 
-            id="prestador" 
-            {...register('prestador')} />
-          {errors.prestador && <InputError>{errors.prestador.message}</InputError>}
+            id="provider" 
+            {...register('provider')} />
+          {errors.provider && <InputError>{errors.provider.message}</InputError>}
         </div>
 
         <div className="grid w-full gap-1.5 mt-4">
-          <Label htmlFor="atendente">Atendente</Label>
+          <Label htmlFor="requester">Atendente</Label>
           <Input 
             placeholder="Nome Atendente" 
             type="text" 
-            id="atendente" 
-            {...register('atendente')} />
-          {errors.atendente && <InputError>{errors.atendente.message}</InputError>}
+            id="requester" 
+            {...register('requester')} />
+          {errors.requester && <InputError>{errors.requester.message}</InputError>}
         </div>
 
         <div className="grid w-full gap-1.5 mt-4">
-          <Label htmlFor="telefone">Telefone</Label>
+          <Label htmlFor="phone">Telefone</Label>
           <Input 
             placeholder="(00) 00000-0000" 
             type="tel" 
             inputMode="numeric"
             maxLength={15}
-            id="telefone" 
+            id="phone" 
             onKeyUp={handlerFormatPhone}
-            {...register('telefone')} />
-          {errors.atendente && <InputError>{errors.atendente.message}</InputError>}
+            {...register('phone')} />
+          {errors.phone && <InputError>{errors.phone.message}</InputError>}
         </div>
 
         <div className="grid w-full gap-1.5 mt-4">
-        <Label htmlFor="tipo_atendimento">Tipo de atendimento</Label>
+        <Label htmlFor="serviceType">Tipo de atendimento</Label>
         <Controller
-          name="tipo_atendimento"
+          name="serviceType"
           control={control}
           render={({field}) => (
             <Select onValueChange={field.onChange} value={field.value}>
@@ -105,23 +105,27 @@ export default function FormService() {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {tipoAtendimento.map(atendimento => <SelectItem key={atendimento} value={atendimento}>{atendimento}</SelectItem>)}
+                  {Object.values(serviceType).map(service => (
+                    <SelectItem key={service} value={service}>
+                      {service}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
             )}/>
-            {errors.tipo_atendimento && (
-            <InputError>{errors.tipo_atendimento.message}</InputError>
+            {errors.serviceType && (
+            <InputError>{errors.serviceType.message}</InputError>
             )}
         </div>
 
         <div className="grid w-full gap-1.5 mt-4">
-          <Label htmlFor="observacao">Observação</Label>
+          <Label htmlFor="observation">Observação</Label>
           <Textarea 
             className="min-h-28"
-            id="observacao" 
-            {...register('observacao')} />
-          {errors.observacao && <InputError>{errors.observacao.message}</InputError>}
+            id="observation" 
+            {...register('observation')} />
+          {errors.observation && <InputError>{errors.observation.message}</InputError>}
         </div>
 
         <Button className="mt-6" type="submit">Cadastrar</Button>
